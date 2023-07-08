@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "./httpanalyzer";
+
+package http_analyzer;
+
+// HTTP Analyzer service definition
+service HttpAnalyzer {
+  // Returns true if the user agent string request is allowed, false otherwise
+  rpc Allow (AllowRequest) returns (IsAllowed) {} 
+}
+
+// The request message containing the user agent string
+message AllowRequest {
+  string user_agent_string = 1;
+}
+
+// The response message containing whether the request is allowed or not
+message IsAllowed {
+  bool is_allowed = 1;
+}
