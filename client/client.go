@@ -1,10 +1,9 @@
-package client
+package main
 
 import (
 	"context"
-	"fmt"
+	"flag"
 	pb "http-user-agent-analyzer/httpanalyzer"
-	"http-user-agent-analyzer/server"
 	"log"
 	"time"
 
@@ -12,8 +11,15 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
+var (
+	// TODO(cait) pick a better default; rework description
+	userAgentString = flag.String("user-agent-header", "default-header", "description of flag")
+)
+
 func main() {
-	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", server.DefaultPort), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	flag.Parse()
+	// TODO(cait) this port appears twice it'd be nice to DRY this up
+	conn, err := grpc.Dial("localhost:26817", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v%v", err, conn)
 	}
@@ -22,7 +28,7 @@ func main() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.Allow(ctx, &pb.AllowRequest{})
+	r, err := c.Allow(ctx, &pb.AllowRequest{UserAgentString: *userAgentString})
 	if err != nil {
 		log.Fatalf("could not process user agent string")
 	}

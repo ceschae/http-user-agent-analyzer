@@ -8,6 +8,7 @@ package httpanalyzer
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HttpAnalyzerClient interface {
 	// Returns true if the user agent string request is allowed, false otherwise
-	Allow(ctx context.Context, in *AllowRequest, opts ...grpc.CallOption) (*IsAllowed, error)
+	Allow(ctx context.Context, in *AllowRequest, opts ...grpc.CallOption) (*AllowReply, error)
 }
 
 type httpAnalyzerClient struct {
@@ -34,8 +35,8 @@ func NewHttpAnalyzerClient(cc grpc.ClientConnInterface) HttpAnalyzerClient {
 	return &httpAnalyzerClient{cc}
 }
 
-func (c *httpAnalyzerClient) Allow(ctx context.Context, in *AllowRequest, opts ...grpc.CallOption) (*IsAllowed, error) {
-	out := new(IsAllowed)
+func (c *httpAnalyzerClient) Allow(ctx context.Context, in *AllowRequest, opts ...grpc.CallOption) (*AllowReply, error) {
+	out := new(AllowReply)
 	err := c.cc.Invoke(ctx, "/http_analyzer.HttpAnalyzer/Allow", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -48,7 +49,7 @@ func (c *httpAnalyzerClient) Allow(ctx context.Context, in *AllowRequest, opts .
 // for forward compatibility
 type HttpAnalyzerServer interface {
 	// Returns true if the user agent string request is allowed, false otherwise
-	Allow(context.Context, *AllowRequest) (*IsAllowed, error)
+	Allow(context.Context, *AllowRequest) (*AllowReply, error)
 	mustEmbedUnimplementedHttpAnalyzerServer()
 }
 
@@ -56,7 +57,7 @@ type HttpAnalyzerServer interface {
 type UnimplementedHttpAnalyzerServer struct {
 }
 
-func (UnimplementedHttpAnalyzerServer) Allow(context.Context, *AllowRequest) (*IsAllowed, error) {
+func (UnimplementedHttpAnalyzerServer) Allow(context.Context, *AllowRequest) (*AllowReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Allow not implemented")
 }
 func (UnimplementedHttpAnalyzerServer) mustEmbedUnimplementedHttpAnalyzerServer() {}

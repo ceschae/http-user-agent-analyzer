@@ -7,7 +7,7 @@ package http_analyzer;
 // HTTP Analyzer service definition
 service HttpAnalyzer {
   // Returns true if the user agent string request is allowed, false otherwise
-  rpc Allow (AllowRequest) returns (IsAllowed) {} 
+  rpc Allow (AllowRequest) returns (AllowReply) {} 
 }
 
 // The request message containing the user agent string
@@ -16,6 +16,6 @@ message AllowRequest {
 }
 
 // The response message containing whether the request is allowed or not
-message IsAllowed {
+message AllowReply {
   bool is_allowed = 1;
 }
