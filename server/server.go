@@ -24,7 +24,8 @@ type server struct {
 	pb.UnimplementedHttpAnalyzerServer
 }
 
-// TODO(cait) Allow(...) based on a http.Request.UserAgent()
+// TODO(cait) if we ever want this to be a importable lib, we can implement
+// Allow(...) for a general request object based on a http.Request.UserAgent()
 
 func (s *server) Allow(ctx context.Context, in *pb.AllowRequest) (*pb.AllowReply, error) {
 	input := in.GetUserAgentString()
