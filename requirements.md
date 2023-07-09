@@ -1,0 +1,6 @@
+You are implementing an API which must analyze an HTTP user agent and make a decision as to whether to block or allow it. If the user agent header is from a Safari browser, it should return a decision to block the request. If it is from a Firefox browser, it should allow the request.
+Create a gRPC client and server in Rust or Go which implements a single endpoint that receives the user agent string, analyzes it, and returns the result. Create a terminal CLI which uses the client to call the API. Include appropriate tests and documentation.
+
+Present the completed project within a Git repo with a README. You may wish to use Buf or Connect to make it easier to bootstrap the client/server. Do not spend more than half a day in total. If you don’t complete the project in that time, we can discuss what you’d need to do to finish it. Using an AI assistant such as Copilot or ChatGPT is fine, but we recommend against using it to generate large blocks of code without significant modification!
+
+We are assessing your technical ability, but are also looking at how you approach creating a good user experience for a developer making use of the client/server i.e. through the terminal CLI.
